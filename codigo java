@@ -1,0 +1,80 @@
+package com.example.calculadora;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import java.text.DecimalFormat;
+
+public class MainActivity extends AppCompatActivity {
+    EditText jetnumero1, jetnumero2;
+    TextView jtvsuma, jtvresta, jtvmultiplicacion, jtvdivision;//Variables
+    DecimalFormat formato=new DecimalFormat("#.##");
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        //asociar los elemntos con java con el xml
+        jetnumero1=findViewById(R.id.etnumero1);
+        jetnumero2=findViewById(R.id.etnumero2);
+        jtvsuma=findViewById(R.id.tvsuma);
+        jtvresta=findViewById(R.id.tvresta);
+        jtvmultiplicacion=findViewById(R.id.tvmultiplicacion);
+        jtvdivision=findViewById(R.id.tvdivision);
+    }
+    public void Calcular(View view)
+    {
+        String numero1, numero2;
+        numero1=jetnumero1.getText().toString();
+        numero2=jetnumero2.getText().toString();
+        //validar que los numeros no esten vacios
+        if(numero1.isEmpty() || numero2.isEmpty())
+        {
+            Toast.makeText(this, "Los numeros son obligatorios", Toast.LENGTH_SHORT).show();
+            jetnumero1.requestFocus();
+        }
+        else
+        {
+            //crear variables numericas para realizar las operaciones
+            int num1, num2, suma, resta, multiplicacion;
+            float division;
+            num1=Integer.parseInt(numero1);
+            num2=Integer.parseInt(numero2);
+            //operaciones
+            suma=num1+num2;
+            resta=num1-num2;
+            multiplicacion=num1*num2;
+            //imprimir los resultados
+            jtvsuma.setText(String.valueOf(suma));
+            jtvresta.setText(String.valueOf(resta));
+            jtvmultiplicacion.setText(String.valueOf(multiplicacion));
+
+            //operacion de la division
+            //1. comprobar que el valor dos no sea 0
+            if(num2 == 0){
+                Toast.makeText(this, "Division invalida", Toast.LENGTH_SHORT).show();
+            }
+            else
+            {
+                division=num1/num2;
+                jtvdivision.setText(formato.format(division));
+            }
+        }
+
+    }//final de la funcion calcular
+    public void Limpiar(View view){
+        jetnumero1.setText("");
+        jetnumero2.setText("");
+        jtvsuma.setText("0");
+        jtvresta.setText("0");
+        jtvmultiplicacion.setText("0");
+        jtvdivision.setText("0");
+        jetnumero1.requestFocus();//indica que el cursor queda seleccionado en el numero
+    }
+}
